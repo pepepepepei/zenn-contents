@@ -12,14 +12,17 @@ published_at: "2023-05-05 05:49"
 こちらの記事を拝読し実際に実装した際に、私がつまづいた話です。
 
 ## やりたいこと
+
 現在の場所を判定して、ナビゲーションの該当場所の表示を変えたい
-![](https://storage.googleapis.com/zenn-user-upload/68f586dba050-20230505.png)
+![正しく動いているナビゲーションの画像](https://storage.googleapis.com/zenn-user-upload/68f586dba050-20230505.png)
 
 ## つまづいたこと
+
 どのページに飛んでも、該当場所に加えて「ホーム」の表示が変わってしまう
-![](https://storage.googleapis.com/zenn-user-upload/d7d545afcc7c-20230505.png)
+![間違った動きをしているナビゲーションの画像](https://storage.googleapis.com/zenn-user-upload/d7d545afcc7c-20230505.png)
 
 ## 解決後コード全文
+
 ```jsx:Nav.jsx
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -84,6 +87,7 @@ export default function Nav() {
 ```
 
 ## 原因
+
 classを切り替える条件について、適切な条件を与えられていなかったことが原因です。
 初めは先行記事に則り[startsWith()メソッド](https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String/startsWith)のみを使用していました。
 
@@ -105,6 +109,7 @@ router.pathname.startsWith(item.href)
 |/privacy |/news          |false |
 
 ## 解決策
+
 item.hrefが「/」のときは、startsWithの代わりに===（厳密等価演算子）を使って判定するようにして解決です。
 
 ```diff js
